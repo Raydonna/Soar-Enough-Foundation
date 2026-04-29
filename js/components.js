@@ -55,7 +55,7 @@ function renderFooter() {
           <div>
             <div class="footer-brand">
               <span class="nav-brand-icon">${LOGO_SVG}</span>
-              <span class="footer-brand-text">Soar Enough</span>
+              <span class="footer-brand-text">Soar Enough Foundation.</span>
             </div>
             <p class="footer-about">We empower underrepresented youth through education, mentorship, and community-led development. Founded in 2025, driven by the belief that every young person deserves a fair start.</p>
           </div>
