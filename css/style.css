@@ -510,6 +510,7 @@ p{color:var(--gray-500);margin-bottom:1em;font-size:1.05rem}
 .form-group textarea{height:130px;resize:vertical}
 .form-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;
   overflow:hidden;opacity:0;pointer-events:none}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 
 .thanks-wrap{max-width:680px;margin:0 auto;text-align:center;background:var(--white);
   border:1px solid var(--gray-100);border-radius:var(--r-md);

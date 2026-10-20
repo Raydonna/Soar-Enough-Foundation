@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCounters();
     initTestimonials();
     initGallery();
+    initForms();
     initSmoothAnchors();
     initScrollTop();
   });
@@ -121,6 +122,51 @@ function initGallery() {
   closeBtn.addEventListener('click', close);
   box.addEventListener('click', e => { if (e.target === box) close(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+}
+
+/* ---------- Forms ----------
+   The forms themselves are plain HTML that post to Formspree:
+     <form action="https://formspree.io/f/xdeavlbk" method="POST">
+   That markup works on its own and stays the fallback.
+
+   This handler is progressive enhancement only. Formspree's free plan
+   ignores the _next field, so the browser would land on Formspree's
+   own "Thanks" page. We post with Accept: application/json instead,
+   read the response, and send the visitor to thanks.html ourselves.
+   Any failure falls back to a normal form post.
+------------------------------------------------------------ */
+function initForms() {
+  const forms = [
+    document.getElementById('contactForm'),
+    document.getElementById('newsletterForm'),
+    document.getElementById('footerNewsletterForm')
+  ].filter(Boolean);
+
+  forms.forEach(form => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!res.ok) throw new Error('submit failed');
+        const data = await res.json();
+        if (!data.ok) throw new Error('submit rejected');
+        window.location.href = form.getAttribute('data-thanks') || 'thanks.html';
+        return;
+      } catch (err) {
+        /* fall through to the native post below */
+      }
+
+      if (btn) btn.disabled = false;
+      form.submit();
+    });
+  });
 }
 
 /* ---------- Smooth Anchors ---------- */
